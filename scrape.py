@@ -13,10 +13,16 @@ IMAGE_ROOT = 'https://covid19.yale.edu/sites/default/files/images'
 for directory in (OUTPUT_PATH, GRAPH_PATH):
     pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 
-def download(name: str):
-    filename = name + '.png'
+def get_category(filename: str):
+    first, stripped = filename.split('-', 1)
+    if first in ('yale', 'connecticut'):
+        return rest + '/', stripped
+    return filename, ''
+
+def download(filename: str):
+    filename, category = categorize(filename)
     url = IMAGE_ROOT + '/' + filename
-    path = GRAPH_PATH + '/' + filename
+    path = GRAPH_PATH + '/' + category + filename
     r = requests.get(url, allow_redirects=True)
     with open(path, 'wb') as f:
         f.write(r.content)
