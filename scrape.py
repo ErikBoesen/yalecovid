@@ -59,6 +59,7 @@ body = soup.find('div', {'class': 'field-item even'})
 tables = body.find_all('table')
 for table in tables:
     caption = table.find('caption').text
+    print('Parsing table %s.' % caption)
     output_rows = []
     for table_row in table.find_all('tr'):
         columns = table_row.find_all(['th', 'td'])
