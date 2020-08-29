@@ -61,7 +61,7 @@ for table in tables:
     caption = table.find('caption').text
     output_rows = []
     for table_row in table.find_all('tr'):
-        columns = table_row.find_all('td')
+        columns = table_row.find_all(['th', 'td'])
         output_row = []
         for column in columns:
             output_row.append(column.text)
