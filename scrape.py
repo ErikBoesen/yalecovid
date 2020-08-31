@@ -51,7 +51,7 @@ images = [img['src'].split('/')[-1] for img in imgs]
 for image in images:
     download(image)
 
-TABLES_URL = 'https://covid19.yale.edu/yale-statistics'
+TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
 
 r = requests.get(TABLES_URL)
 soup = BeautifulSoup(r.text, 'html.parser')
@@ -80,11 +80,14 @@ def merge_tables(tables):
         for row_index, row in enumerate(table):
             # Chop off duplicate leftmost column
             base[row_index] += row[1:]
+    return base
 
 # Merge Yale tables into one
 yale_table = merge_tables(tables[2:4])
+yale_table[0][0] = 'Population'
 # Merge Connecticut tables into one
 connecticut_table = merge_tables(tables[4:6])
+connecticut_table[0][0] = 'County'
 
 tables = [yale_table, connecticut_table]
 
