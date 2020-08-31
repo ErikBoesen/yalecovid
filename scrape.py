@@ -51,13 +51,14 @@ images = [img['src'].split('/')[-1] for img in imgs]
 for image in images:
     download(image)
 
-TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
+TABLES_URL = 'https://covid19.yale.edu/yale-statistics'
 
 r = requests.get(TABLES_URL)
 soup = BeautifulSoup(r.text, 'html.parser')
 body = soup.find('div', {'class': 'field-item even'})
-tables = body.find_all('table')
-for table in tables:
+
+tables = []
+for table in body.find_all('table'):
     caption = table.find('caption').text
     print('Parsing table %s.' % caption)
     output_rows = []
@@ -67,7 +68,30 @@ for table in tables:
         for column in columns:
             output_row.append(column.text)
         output_rows.append(output_row)
+    tables.append(output_rows)
 
+def merge_tables(tables):
+    """
+    Merge a list of tables with the same rows into one containing all the data.
+    :param tables: list of lists of data rows
+    """
+    base = tables[0]
+    for table in tables[1:]:
+        for row_index, row in enumerate(table):
+            base[row_index] += row
+
+# Merge Yale tables into one
+yale_table = merge_tables(tables[2:4])
+# Merge Connecticut tables into one
+connecticut_table = merge_tables(tables[4:6])
+
+tables = [yale_table, connecticut_table]
+
+print(tables)
+
+"""
+for table in tables:
     with open(TABLE_PATH + '/' + caption + '.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(output_rows)
+"""
