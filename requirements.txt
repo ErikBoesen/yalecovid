@@ -1,7 +1,5 @@
 beautifulsoup4
 requests
-psycopg2
 gunicorn
 Flask
-Flask-SQLAlchemy
-Flask-Migrate
+celery
