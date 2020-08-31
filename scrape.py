@@ -78,7 +78,8 @@ def merge_tables(tables):
     base = tables[0]
     for table in tables[1:]:
         for row_index, row in enumerate(table):
-            base[row_index] += row
+            # Chop off duplicate leftmost column
+            base[row_index] += row[1:]
 
 # Merge Yale tables into one
 yale_table = merge_tables(tables[2:4])
