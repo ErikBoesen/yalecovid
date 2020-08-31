@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        {% if title %}
+        <title>{{ title }} - CoviDash</title>
+        <meta property="og:title" content="{{ title }} - CoviDash">
+        {% else %}
+        <title>Yale CoviDash</title>
+        <meta property="og:title" content="Yale CoviDash">
+        {% endif %}
+        <meta name="viewport" content="width=device-width">
+        <meta name="description" content="Track COVID-19 at Yale.">
+        <meta name="author" content="Erik Boesen">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta property="og:description" content="Track COVID-19 at Yale.">
+        <meta property="og:image" content="">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="icon" href="/static/images/logo/favicon.png" type="image/png">
+        <link rel="icon" href="/static/images/logo/favicon.ico" type="image/x-icon">
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            <nav>
+                <h2 id="logo-text"><a href="{{ url_for('index') }}">CoviDash</a></h2>
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer>
+            &copy; <a href="https://erikboesen.com">Erik Boesen</a>.
+        </footer>
+        <script src="/static/js/main.js"></script>
+    </body>
+</html>
