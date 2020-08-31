@@ -98,4 +98,6 @@ def save_table(name, table):
     with open(TABLE_PATH + '/' + name + '.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(table)
-"""
+
+save_table('yale', yale_table)
+save_table('connecticut', connecticut_table)
