@@ -24,5 +24,5 @@ if not app.debug:
     app.logger.setLevel(logging.INFO)
     app.logger.info('App startup')
 
-from app import routes, models, errors, api
+from app import routes, errors, api
 app.register_blueprint(api.api_blueprint, url_prefix='/api')
