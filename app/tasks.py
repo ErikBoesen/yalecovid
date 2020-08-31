@@ -1,9 +1,7 @@
-from app import app, celery
+from app import app, redis, celery
 
 import requests
-import pathlib
 from bs4 import BeautifulSoup
-import csv
 
 
 def merge_tables(tables):
