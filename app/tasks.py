@@ -61,3 +61,4 @@ def scrape():
 @celery.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(10, scrape.s(), name='Scraper')
+    print('Set up periodic task.')
