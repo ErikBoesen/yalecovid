@@ -93,9 +93,9 @@ tables = [yale_table, connecticut_table]
 
 print(tables)
 
-"""
-for table in tables:
-    with open(TABLE_PATH + '/' + caption + '.csv', 'w') as csvfile:
+
+def save_table(name, table):
+    with open(TABLE_PATH + '/' + name + '.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerows(output_rows)
+        writer.writerows(table)
 """
