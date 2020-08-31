@@ -1,5 +1,6 @@
+flask
+flask-redis
 beautifulsoup4
 requests
 gunicorn
-Flask
 celery
