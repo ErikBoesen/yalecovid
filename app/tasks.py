@@ -30,6 +30,7 @@ def clean_number(string: str):
         return int(val)
     return val
 
+
 def to_dicts(table):
     keys = table[0]
     return [
@@ -40,6 +41,15 @@ def to_dicts(table):
         }
         for row in table[1:]
     ]
+
+def split_peak(table, split_on=', on'):
+    """
+    Split the last column of a table into numerical and rate columns.
+    """
+    for r in range(1, len(table)):
+        whole = table[r].pop()
+        table[r] += whole.split(split_on)
+    return table
 
 @celery.task
 def scrape():
@@ -72,9 +82,26 @@ def scrape():
             output_rows.append(output_row)
         tables.append(output_rows)
 
+    # Split up "peak" columns into number and date
+    tables = [split_peak(table) for table in tables]
+
     # Merge Yale tables into one
     yale_table = merge_tables(tables[:2])
-    yale_table[0][0] = 'Population'
+    yale_table[0] = [
+        'population',
+        'total_cases',
+        'weekly_cases',
+        'new_case_peak',
+        'new_case_peak_date',
+        # Why do they include useless statistics like this??
+        'most_recent_date_below_5_percent_positivity',
+        # TODO I wish
+        #'total_positivity_rate',
+        'weekly_positivity_rate',
+        'peak_positivity_rate',
+        'peak_positivity_rate_date',
+    ]
+
     # Merge Connecticut tables into one
     connecticut_table = merge_tables(tables[2:])
     connecticut_table[0][0] = 'County'
