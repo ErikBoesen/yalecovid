@@ -20,7 +20,11 @@ def merge_tables(tables):
 def to_dicts(table):
     keys = table[0]
     return [
-        {key: val for key, val in zip(keys, row)}
+        {
+            # Convert to int if possible
+            key: int(val) if val.isnumeric() else val
+            for key, val in zip(keys, row)
+        }
         for row in table[1:]
     ]
 
