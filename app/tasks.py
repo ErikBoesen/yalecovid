@@ -41,7 +41,6 @@ def scrape():
     # Unfortunately it doesn't have identifying information other than a class .alert-colorname
     color = body.find('div')['class'][0].split('-')[1]
     redis.set('color', color)
-    print('Current color: ' + redis.get('color').decode())
 
     TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
 
@@ -73,9 +72,13 @@ def scrape():
 
     redis.set('yale', json.dumps(yale_data))
     redis.set('connecticut', json.dumps(connecticut_data))
+    print('Updated data.')
 
 
 @celery.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(100, scrape.s(), name='Scraper')
+    sender.add_periodic_task(
+        100,
+        scrape.s()
+    )
     print('Set up periodic tasks.')
