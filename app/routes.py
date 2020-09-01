@@ -1,9 +1,11 @@
 from flask import render_template
 from app import app, redis, tasks
 
+import json
+
 
 COLORS = {
-    'green': '',
+    'green': '29ba3a',
     'yellow': 'ffeb3b',
     'orange': 'ff5722',
     'red': 'f40707',
@@ -12,5 +14,7 @@ COLORS = {
 
 @app.route('/')
 def index():
-    color = 'yellow'
+    color = redis.get('color').decode()
+    yale = json.loads(redis.get('yale').decode())
+    connecticut = json.loads(redis.get('connecticut').decode())
     return render_template('index.html', color=COLORS[color])
