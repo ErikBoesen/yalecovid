@@ -24,11 +24,11 @@ def clean_number(string: str):
     Return maximally simplified numerical value.
     i.e. remove percent signs and convert to int/float.
     """
-    if val.endswith('%'):
-        return float(val.rstrip('%'))
-    if val.isnumeric():
-        return int(val)
-    return val
+    if string.endswith('%'):
+        return float(string.rstrip('%'))
+    if string.isnumeric():
+        return int(string)
+    return string
 
 
 def to_dicts(table):
@@ -105,9 +105,13 @@ def scrape():
     yale_data = to_dicts(yale_table)
 
     yale_data[0]['populations'] = {
-        population['population']: population
+        population['population'].lower(): population
+        for population in yale_data[1:]
     }
     yale_data = yale_data[0]
+    del yale_data['population']
+    for population in yale_data['populations']:
+        del population['population']
 
     redis.set('yale', json.dumps(yale_data))
 

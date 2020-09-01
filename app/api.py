@@ -16,17 +16,17 @@ def fail(message, code=400):
     )
 
 
-@api.errorhandler(404)
+@api_bp.errorhandler(404)
 def not_found(error):
     return fail('Not found.', 404)
 
 
-@api.errorhandler(401)
+@api_bp.errorhandler(401)
 def unauthorized(error):
     return fail('You\'re not authorized to perform this action.', 401)
 
 
-@api.errorhandler(403)
+@api_bp.errorhandler(403)
 def forbidden(error):
     return fail('You don\'t have permission to do this.', 403)
 
