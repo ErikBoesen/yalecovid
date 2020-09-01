@@ -102,18 +102,26 @@ def scrape():
         'peak_positivity_rate_date',
     ]
 
+    yale_data = to_dicts(yale_table)
+
+    yale_data[0]['populations'] = {
+        population['population']: population
+    }
+    yale_data = yale_data[0]
+
+    redis.set('yale', json.dumps(yale_data))
+
     # Merge Connecticut tables into one
+    """
     connecticut_table = merge_tables(tables[2:])
     connecticut_table[0][0] = 'County'
 
-    yale_data = to_dicts(yale_table)
     connecticut_data = to_dicts(connecticut_table)
-
-    redis.set('yale', json.dumps(yale_data))
     redis.set('connecticut', json.dumps(connecticut_data))
-    print('Updated data.')
+    """
 
     redis.set('last_updated', int(time.time()))
+    print('Updated data.')
 
 
 @celery.on_after_configure.connect

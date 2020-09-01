@@ -1,5 +1,7 @@
-from flask import Blueprint, jsonify, request, jsonify
+from flask import Blueprint, jsonify, request
 from app import app, redis
+
+import json
 
 
 api_bp = Blueprint('api', __name__)
@@ -45,4 +47,5 @@ def api_statistics(realm: str):
     """
     if realm not in ('yale', 'connecticut'):
         abort(404)
-
+    statistics = json.loads(redis.get('yale'))
+    return jsonify(statistics)
