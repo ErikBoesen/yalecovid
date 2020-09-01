@@ -103,7 +103,12 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# Celery (Custom)
+celerybeat.pid
+*.rdb
+
 # Custom
 logs
 *.db
 data/
+
