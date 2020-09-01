@@ -2,6 +2,7 @@ from app import app, redis, celery
 
 import requests
 from bs4 import BeautifulSoup
+import json
 
 
 def merge_tables(tables):
@@ -40,6 +41,7 @@ def scrape():
     # Unfortunately it doesn't have identifying information other than a class .alert-colorname
     color = body.find('div')['class'][0]
     redis.set('color', color)
+    print('Current color: ' + redis.get('color'))
 
     TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
 
@@ -50,7 +52,6 @@ def scrape():
     tables = []
     for table in body.find_all('table'):
         caption = table.find('caption').text
-        print('Parsing table %s.' % caption)
         output_rows = []
         for table_row in table.find_all('tr'):
             columns = table_row.find_all(['th', 'td'])
@@ -70,8 +71,8 @@ def scrape():
     yale_data = to_dicts(yale_table)
     connecticut_data = to_dicts(connecticut_table)
 
-    redis.set('yale', yale_data)
-    redis.set('connecticut', connecticut_data)
+    redis.set('yale', json.dumps(yale_data))
+    redis.set('connecticut', json.dumps(connecticut_data))
 
 
 @celery.on_after_configure.connect
