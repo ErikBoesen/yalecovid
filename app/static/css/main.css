@@ -20,3 +20,10 @@ body {
 a {
     color: inherit;
 }
+
+body.green { background: #29ba3a; }
+body.yellow { background: #ffeb3b; }
+body.orange { background: #ff5722; }
+body.red { background: #f40707; }
+
+

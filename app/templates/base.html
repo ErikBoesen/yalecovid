@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
         {% if title %}
-        <title>{{ title }} - CoviDash</title>
-        <meta property="og:title" content="{{ title }} - CoviDash">
+        <title>{{ title }} - Yalevid</title>
+        <meta property="og:title" content="{{ title }} - Yalevid">
         {% else %}
-        <title>Yale CoviDash</title>
-        <meta property="og:title" content="Yale CoviDash">
+        <title>Yalevid</title>
+        <meta property="og:title" content="Yalevid: Track COVID-19 at Yale">
         {% endif %}
         <meta name="viewport" content="width=device-width">
         <meta name="description" content="Track COVID-19 at Yale.">
@@ -21,10 +21,10 @@
         {% block head %}
         {% endblock %}
     </head>
-    <body>
+    <body class="{{ color }}">
         <header>
             <nav>
-                <h2 id="logo-text"><a href="{{ url_for('index') }}">CoviDash</a></h2>
+                <h2 id="logo-text"><a href="{{ url_for('index') }}">Yalevid</a></h2>
             </nav>
         </header>
         <main>
