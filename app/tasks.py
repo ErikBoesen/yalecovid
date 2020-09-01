@@ -39,9 +39,9 @@ def scrape():
 
     # TODO: find a better way to target the first div
     # Unfortunately it doesn't have identifying information other than a class .alert-colorname
-    color = body.find('div')['class'][0]
+    color = body.find('div')['class'][0].split('-')[1]
     redis.set('color', color)
-    print('Current color: ' + redis.get('color'))
+    print('Current color: ' + redis.get('color').decode())
 
     TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
 
