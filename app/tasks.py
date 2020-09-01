@@ -3,6 +3,7 @@ from app import app, redis, celery
 import requests
 from bs4 import BeautifulSoup
 import json
+import time
 
 
 def merge_tables(tables):
@@ -84,6 +85,8 @@ def scrape():
     redis.set('yale', json.dumps(yale_data))
     redis.set('connecticut', json.dumps(connecticut_data))
     print('Updated data.')
+
+    redis.set('last_updated', int(time.time()))
 
 
 @celery.on_after_configure.connect
