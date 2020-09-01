@@ -1,5 +1,10 @@
-class Config(object):
-    REDIS_URL = 'redis://localhost:6379/0'
+import os
 
-    CELERY_BROKER_URL = 'redis://localhost:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+REDIS = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+
+class Config(object):
+    REDIS_URL = REDIS
+
+    CELERY_BROKER_URL = REDIS
+    CELERY_RESULT_BACKEND = REDIS
