@@ -12,7 +12,7 @@ COLORS = {
 
 @app.route('/')
 def index():
-    color = redis.get('color')
+    alert_level = redis.get('alert_level')
     yale = json.loads(redis.get('yale'))
     connecticut = json.loads(redis.get('connecticut'))
-    return render_template('index.html', theme_color=COLORS[color], color=color, data=yale)
+    return render_template('index.html', theme_color=COLORS[alert_level], alert_level=alert_level, data=yale)

@@ -38,9 +38,9 @@ def scrape():
     body = soup.find('div', {'class': 'field-item even'})
 
     # TODO: find a better way to target the first div
-    # Unfortunately it doesn't have identifying information other than a class .alert-colorname
-    color = body.find('div')['class'][0].split('-')[1]
-    redis.set('color', color)
+    # Unfortunately it doesn't have identifying information other than a class .alert-[color]
+    alert_level = body.find('div')['class'][0].split('-')[1]
+    redis.set('alert_level', alert_level)
 
     TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
 
