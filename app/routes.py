@@ -1,5 +1,5 @@
 from flask import render_template
-from app import app, redis
+from app import app, redis, tasks
 
 
 COLORS = {

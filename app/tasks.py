@@ -17,6 +17,13 @@ def merge_tables(tables):
     return base
 
 
+def to_dicts(table):
+    keys = table[0]
+    return [
+        {key: val for key, val in zip(keys, row)}
+        for row in table[1:]
+    ]
+
 @celery.task
 def scrape():
     STATISTICS_URL = 'https://covid19.yale.edu/yale-covid-19-statistics'
@@ -25,9 +32,10 @@ def scrape():
     soup = BeautifulSoup(r.text, 'html.parser')
     body = soup.find('div', {'class': 'field-item even'})
 
-    # TODO: fix
-    color = body.children[0]['class']
-    print(color)
+    # TODO: find a better way to target the first div
+    # Unfortunately it doesn't have identifying information other than a class .alert-colorname
+    color = body.find('div')['class'][0]
+    redis.set('color', color)
 
     TABLES_URL = 'https://covid19.yale.edu/yale-statistics/yale-covid-19-statistics-data-tables'
 
@@ -55,8 +63,14 @@ def scrape():
     connecticut_table = merge_tables(tables[2:])
     connecticut_table[0][0] = 'County'
 
+    yale_data = to_dicts(yale_table)
+    connecticut_data = to_dicts(connecticut_table)
+
+    redis.set('yale', yale_data)
+    redis.set('connecticut', connecticut_data)
+
 
 @celery.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(10, scrape.s(), name='Scraper')
-    print('Set up periodic task.')
+    sender.add_periodic_task(100, scrape.s(), name='Scraper')
+    print('Set up periodic tasks.')
