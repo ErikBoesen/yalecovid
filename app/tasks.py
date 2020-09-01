@@ -110,8 +110,6 @@ def scrape():
     }
     yale_data = yale_data[0]
     del yale_data['population']
-    for population in yale_data['populations']:
-        del population['population']
 
     redis.set('yale', json.dumps(yale_data))
 
