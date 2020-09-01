@@ -12,7 +12,7 @@ COLORS = {
 
 @app.route('/')
 def index():
-    color = redis.get('color').decode()
-    yale = json.loads(redis.get('yale').decode())
-    connecticut = json.loads(redis.get('connecticut').decode())
+    color = redis.get('color')
+    yale = json.loads(redis.get('yale'))
+    connecticut = json.loads(redis.get('connecticut'))
     return render_template('index.html', theme_color=COLORS[color], color=color, data=yale)
