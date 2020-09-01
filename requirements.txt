@@ -1,5 +1,6 @@
 flask
 flask-redis
+flask-cors
 beautifulsoup4
 requests
 gunicorn
