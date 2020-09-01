@@ -11,4 +11,4 @@ celery.conf.update(app.config)
 redis = FlaskRedis(app, decode_responses=True)
 
 from app import routes, errors, api
-app.register_blueprint(api.api_blueprint, url_prefix='/api')
+app.register_blueprint(api.api_bp, url_prefix='/api')
