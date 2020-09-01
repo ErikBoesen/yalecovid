@@ -18,12 +18,23 @@ def merge_tables(tables):
     return base
 
 
+def clean_number(string: str):
+    """
+    Return maximally simplified numerical value.
+    i.e. remove percent signs and convert to int/float.
+    """
+    if val.endswith('%'):
+        return float(val.rstrip('%'))
+    if val.isnumeric():
+        return int(val)
+    return val
+
 def to_dicts(table):
     keys = table[0]
     return [
         {
             # Convert to int if possible
-            key: int(val) if val.isnumeric() else val
+            key: clean_number(val)
             for key, val in zip(keys, row)
         }
         for row in table[1:]
